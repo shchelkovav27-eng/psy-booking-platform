@@ -1,0 +1,159 @@
+/* Внутренний контур школы. Гамма нарочно другая, чем у агрегатора записи
+   к экспертам: там тёплый песок и кирпич, здесь прохладная бумага и петроль —
+   чтобы две системы не путались ни на вкладке, ни с первого взгляда. */
+:root{
+  --ink:#152227;        /* почти чёрный с уклоном в петроль, а не нейтральный */
+  --ink-soft:#5C6E73;
+  --accent:#1F6470;     /* глубокий петроль */
+  --accent-deep:#154C56;
+  --ground:#F0F4F5;     /* холодная бумага */
+  --paper:#FFFFFF;
+  --line:#D7E2E4;
+  --line-deep:#B6C7CB;
+  --good:#3F7D5A;       /* зелёный отдельно от акцента: «состоялась» ≠ кнопка */
+  --bad:#B4472E;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--ground)}
+#psy-app{
+  font-family:'Golos Text',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:var(--ink);background:var(--ground);
+  padding:20px 16px 60px;min-height:100vh;line-height:1.5;font-size:15px;
+}
+#psy-app .wrap{max-width:760px;margin:0 auto}
+/* Меню сбоку: разделов много, верхним рядом они переносились в две
+   строки и разъезжались. Узкий экран — снова горизонтальная лента. */
+/* На большом мониторе 1180px оставляли половину экрана пустой, а таблицы
+   приходилось крутить вбок. Отдаём ширину под содержимое, но не больше
+   1560px — иначе строки становятся слишком длинными и глаз теряет строку. */
+#psy-app .shell{max-width:min(1560px, 96vw);margin:0 auto;display:grid;grid-template-columns:236px 1fr;gap:26px;align-items:start}
+#psy-app .side{position:sticky;top:20px;display:flex;flex-direction:column;gap:2px}
+#psy-app .side .nav{display:flex;flex-direction:column;gap:2px}
+#psy-app .side .nav button{
+  text-align:left;background:transparent;border:1px solid transparent;color:var(--ink);
+  padding:9px 12px;border-radius:6px;font-size:14px;font-weight:500}
+#psy-app .side .nav button:hover{background:var(--paper);border-color:var(--line)}
+#psy-app .side .nav button[aria-selected=true]{background:var(--paper);border-color:var(--line-deep);color:var(--accent);font-weight:600}
+#psy-app .side .nav button:active{background:var(--line)}
+#psy-app .side .who{padding:0 12px 12px;border-bottom:1px solid var(--line);margin-bottom:10px}
+#psy-app .side .who b{display:block;font-size:14px}
+#psy-app .side .who span{font-size:12px;color:var(--ink-soft)}
+#psy-app .main{min-width:0}
+@media (max-width:860px){
+  #psy-app .shell{grid-template-columns:1fr;gap:14px}
+  #psy-app .side{position:static}
+  #psy-app .side .nav{flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:6px}
+  #psy-app .side .nav button{white-space:nowrap}
+  #psy-app .side .who{display:none}
+}
+#psy-app .wrap.wide{max-width:1080px}
+#psy-app h1,#psy-app h2,#psy-app h3{font-family:'Literata',Georgia,serif;font-weight:500;margin:0;letter-spacing:-0.005em}
+#psy-app h1{font-size:30px;line-height:1.15}
+#psy-app h2{font-size:22px;line-height:1.2}
+#psy-app h3{font-size:17px;line-height:1.3}
+#psy-app .eyebrow{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:10px}
+#psy-app .muted{color:var(--ink-soft);font-size:13px}
+#psy-app p{margin:0 0 12px}
+#psy-app a{color:var(--accent)}
+#psy-app .card{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:22px;margin-bottom:14px}
+#psy-app .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+#psy-app .brandmark{display:flex;align-items:baseline;gap:10px}
+#psy-app .brandmark .dot{width:9px;height:9px;background:var(--accent);border-radius:50%;flex:none;transform:translateY(-2px)}
+#psy-app .brandmark span{font-family:'Literata',Georgia,serif;font-size:16px}
+#psy-app button{font-family:inherit;font-size:14px;cursor:pointer;border-radius:3px;
+  transition:background .12s,border-color .12s,color .12s,transform .06s}
+/* Нажатие должно быть видно: кнопка вдавливается и темнеет, иначе
+   непонятно, сработало или нет — особенно на телефоне, где нет наведения. */
+#psy-app button:active:not(:disabled){transform:translateY(1px)}
+#psy-app .btn:active:not(:disabled){background:var(--accent-deep);border-color:var(--accent-deep)}
+#psy-app .btn-ghost:active:not(:disabled){background:var(--line);border-color:var(--line-deep)}
+#psy-app .btn-link:active{opacity:.6}
+#psy-app .chip:active,#psy-app .tab:active{background:var(--line)}
+#psy-app .ticket:active{transform:translateY(1px);border-color:var(--accent)}
+#psy-app button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#psy-app .btn{background:var(--accent);color:#fff;border:1px solid var(--accent);padding:11px 20px;font-weight:600}
+#psy-app .btn:hover{background:var(--accent-deep);border-color:var(--accent-deep)}
+#psy-app .btn:disabled{background:var(--line-deep);border-color:var(--line-deep);cursor:not-allowed}
+#psy-app .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line-deep);padding:9px 16px;font-weight:500}
+#psy-app .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+#psy-app .btn-sm{padding:6px 12px;font-size:13px}
+/* состояния кнопок: видно, что нажатие сработало */
+#psy-app .btn.busy,#psy-app .btn-ghost.busy{opacity:.55;cursor:progress}
+#psy-app .btn.done,#psy-app .btn-ghost.done{
+  background:var(--good);border-color:var(--good);color:#fff;font-weight:600}
+#psy-app .btn-link.done{color:var(--good);font-weight:600;text-decoration:none}
+#psy-app .ticket.busy,#psy-app .chip.busy{opacity:.55}
+#psy-app .btn-link{background:none;border:none;color:var(--accent);text-decoration:underline;padding:0;font-size:13px;font-weight:500}
+#psy-app .btn-tg{display:inline-block;background:#2AABEE;color:#fff;border:1px solid #2AABEE;padding:12px 20px;font-weight:600;text-decoration:none;border-radius:3px}
+#psy-app label{display:block;font-size:13px;font-weight:600;margin:0 0 6px}
+#psy-app input[type=text],#psy-app input[type=date],#psy-app input[type=time],
+#psy-app input[type=number],#psy-app input[type=password],#psy-app input[type=tel],
+#psy-app input[type=email],#psy-app select,#psy-app textarea{
+  width:100%;font-family:inherit;font-size:16px;color:var(--ink);
+  background:#F7FAFA;border:1px solid var(--line-deep);border-radius:3px;padding:10px 12px;margin-bottom:14px}
+#psy-app textarea{min-height:70px;resize:vertical}
+#psy-app input:focus,#psy-app select:focus,#psy-app textarea:focus{outline:none;border-color:var(--accent);background:#fff}
+#psy-app .field-hint{font-size:12px;color:var(--ink-soft);margin:-10px 0 14px}
+#psy-app .row{display:flex;gap:12px;flex-wrap:wrap}
+#psy-app .row>*{flex:1 1 160px}
+#psy-app .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+#psy-app .role{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:20px;text-align:left;width:100%}
+#psy-app .role:hover{border-color:var(--accent)}
+#psy-app .role strong{display:block;font-family:'Literata',Georgia,serif;font-size:18px;font-weight:400;margin-bottom:5px}
+#psy-app .role em{font-style:normal;font-size:13px;color:var(--ink-soft)}
+#psy-app .day{margin-bottom:26px}
+#psy-app .day-head{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--line-deep);padding-bottom:6px;margin-bottom:12px}
+#psy-app .day-head b{font-family:'Literata',Georgia,serif;font-weight:400;font-size:17px}
+#psy-app .day-head span{font-size:12px;color:var(--ink-soft)}
+#psy-app .tickets{display:flex;flex-wrap:wrap;gap:9px}
+#psy-app .ticket{position:relative;background:var(--paper);border:1px solid var(--line-deep);border-radius:3px;
+  padding:12px 16px 12px 22px;min-width:104px;text-align:left;font-family:'Literata',Georgia,serif;font-size:19px;color:var(--ink)}
+#psy-app .ticket::before{content:'';position:absolute;left:8px;top:9px;bottom:9px;width:3px;background:var(--accent);border-radius:2px;opacity:.55}
+#psy-app .ticket small{display:block;font-family:'Golos Text',sans-serif;font-size:11px;color:var(--ink-soft);margin-top:3px;letter-spacing:.02em}
+#psy-app .ticket:hover{border-color:var(--accent);background:#F7FBFB}
+#psy-app .ticket:hover::before{opacity:1}
+#psy-app .ticket[aria-pressed=true]{border-color:var(--accent);background:#E6F0F1}
+#psy-app .ticket[aria-pressed=true]::before{opacity:1;width:5px}
+#psy-app .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+#psy-app .chip{background:var(--paper);border:1px solid var(--line-deep);border-radius:3px;padding:7px 12px;font-size:14px;font-variant-numeric:tabular-nums}
+#psy-app .chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+/* Внутри выбранной карточки серый текст сливался с тёмным фоном —
+   подписи и метки делаем светлыми, чтобы читались. */
+#psy-app .chip[aria-pressed=true] .muted{color:rgba(255,255,255,.78)}
+#psy-app .chip[aria-pressed=true] .tag{background:rgba(255,255,255,.2);color:#fff;border-color:transparent}
+#psy-app .chip.taken{opacity:.42;cursor:not-allowed}
+#psy-app table{width:100%;border-collapse:collapse;font-size:13px}
+#psy-app th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;padding:0 10px 8px 0;border-bottom:1px solid var(--line-deep)}
+#psy-app td{padding:10px 10px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+/* Контакты не должны рваться по буквам: ник и ссылка читаются целиком */
+#psy-app td .mono,#psy-app td.mono{overflow-wrap:anywhere;word-break:normal}
+#psy-app .scroll table{min-width:900px}
+/* Короткие таблицы (сводка дня) помещаются целиком — прокрутка вбок им не нужна */
+#psy-app .scroll table.uzkaya{min-width:0;width:100%}
+#psy-app td.num,#psy-app th.num{text-align:right;font-variant-numeric:tabular-nums;padding-right:0}
+#psy-app .scroll{overflow-x:auto;margin:0 -4px;padding:0 4px}
+#psy-app .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:14px}
+#psy-app .metric{background:var(--paper);padding:15px 16px}
+#psy-app .metric b{display:block;font-family:'Literata',Georgia,serif;font-size:27px;font-weight:400;line-height:1.1}
+#psy-app .metric span{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:5px}
+#psy-app .metric.hot b{color:var(--accent)}
+#psy-app .tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;border-bottom:1px solid var(--line-deep)}
+#psy-app .tab{background:none;border:none;border-bottom:2px solid transparent;padding:9px 13px;font-size:14px;color:var(--ink-soft);font-weight:500;margin-bottom:-1px}
+#psy-app .tab[aria-selected=true]{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+#psy-app .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:2px;background:var(--ground);border:1px solid var(--line);white-space:nowrap}
+#psy-app .tag.ok{background:#EDF3EE;border-color:#B9CDBC;color:var(--good)}
+#psy-app .tag.bad{background:#FBEEEA;border-color:#E2B7A9;color:var(--bad)}
+#psy-app .tag.wait{background:#FBF3E3;border-color:#E3D2AE;color:#7A5A12}
+#psy-app .note{background:#F2F7F7;border-left:3px solid var(--line-deep);padding:12px 14px;font-size:13px;border-radius:0 3px 3px 0;margin-bottom:14px}
+#psy-app .note.warn{background:#FBEEEA;border-left-color:var(--bad)}
+#psy-app .code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:22px;letter-spacing:.16em;color:var(--accent);font-weight:700}
+#psy-app .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;word-break:break-all}
+#psy-app .stars{display:flex;gap:6px;margin-bottom:14px}
+#psy-app .star{width:46px;height:46px;border:1px solid var(--line-deep);background:var(--paper);border-radius:3px;font-size:17px;font-family:'Literata',Georgia,serif}
+#psy-app .star[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+#psy-app .empty{text-align:center;padding:34px 20px;color:var(--ink-soft);font-size:14px}
+#psy-app .split{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+#psy-app .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:#fff;
+  padding:12px 20px;border-radius:3px;font-size:14px;z-index:99;max-width:88%}
+@media (prefers-reduced-motion:reduce){#psy-app *{transition:none!important;animation:none!important}}
+@media (max-width:560px){#psy-app h1{font-size:25px}#psy-app .card{padding:17px}}

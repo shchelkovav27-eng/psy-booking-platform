@@ -1,0 +1,6 @@
+# Служебное наружу не отдаём: планировщик запускается только из крона (php …)
+<FilesMatch "^(lib|cron)\.php$">
+  Require all denied
+</FilesMatch>
+
+DirectoryIndex index.html

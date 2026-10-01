@@ -1,0 +1,22 @@
+# секреты и окружение
+.env
+.env.*
+!.env.example
+config.php
+deploy/deploy.env
+
+# данные, дампы, копии
+*.sql
+*.sql.gz
+*.enc
+*.csv
+data/
+backups/
+backups-local/
+kopii/
+foto/
+
+# журналы и мусор
+*.log
+.DS_Store
+.local/

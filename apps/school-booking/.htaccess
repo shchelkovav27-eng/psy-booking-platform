@@ -1,0 +1,27 @@
+# Прокидываем заголовок Authorization до PHP (иначе Apache его срезает)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+<IfModule mod_setenvif.c>
+  SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+</IfModule>
+
+# Служебное наружу не отдаём: планировщик и копия базы запускаются только из крона (php …)
+<FilesMatch "^(lib\.php|cron\.php)$">
+  Require all denied
+</FilesMatch>
+
+# Страницы всегда перепроверяем — иначе у кого-то останется старый интерфейс.
+# Сами app.js/app.css versioned (?v=), их кэшировать можно и нужно.
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000"
+  </FilesMatch>
+</IfModule>
+
+DirectoryIndex index.html

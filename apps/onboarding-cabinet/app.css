@@ -1,0 +1,165 @@
+/* Сопровождение в профессию. Устройство экранов — как у школьной записи
+   к психологу (/shkola), а гамма нарочно третья: у агрегатора тёплый
+   песок и кирпич, у школы прохладный петроль — здесь лавандовая бумага
+   и спелая слива, чтобы системы не путались ни на вкладке, ни с первого
+   взгляда. */
+:root{
+  --ink:#251A2B;        /* почти чёрный с уклоном в сливу */
+  --ink-soft:#6E5F76;
+  --accent:#6C3E85;     /* спелая слива */
+  --accent-deep:#512C66;
+  --ground:#F5F1F7;     /* лавандовая бумага */
+  --paper:#FFFFFF;
+  --line:#E2D8E7;
+  --line-deep:#C4B3CD;
+  --good:#3F7D5A;       /* зелёный отдельно от акцента: «проведён» ≠ кнопка */
+  --bad:#B4472E;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--ground)}
+#sop-app{
+  font-family:'Golos Text',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:var(--ink);background:var(--ground);
+  padding:20px 16px 60px;min-height:100vh;line-height:1.5;font-size:15px;
+}
+#sop-app .wrap{max-width:760px;margin:0 auto}
+#sop-app .wrap.wide{max-width:1080px}
+/* Меню сбоку: разделов много, верхним рядом они переносились бы в две
+   строки. Узкий экран — горизонтальная лента. */
+#sop-app .shell{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:224px 1fr;gap:26px;align-items:start}
+#sop-app .side{position:sticky;top:20px;display:flex;flex-direction:column;gap:2px}
+#sop-app .side .nav{display:flex;flex-direction:column;gap:2px}
+#sop-app .side .nav button{
+  text-align:left;background:transparent;border:1px solid transparent;color:var(--ink);
+  padding:9px 12px;border-radius:6px;font-size:14px;font-weight:500}
+#sop-app .side .nav button:hover{background:var(--paper);border-color:var(--line)}
+#sop-app .side .nav button[aria-selected=true]{background:var(--paper);border-color:var(--line-deep);color:var(--accent);font-weight:600}
+#sop-app .side .nav button:active{background:var(--line)}
+#sop-app .side .who{padding:0 12px 12px;border-bottom:1px solid var(--line);margin-bottom:10px}
+#sop-app .side .who b{display:block;font-size:14px}
+#sop-app .side .who span{font-size:12px;color:var(--ink-soft)}
+#sop-app .main{min-width:0}
+@media (max-width:860px){
+  #sop-app .shell{grid-template-columns:1fr;gap:14px}
+  #sop-app .side{position:static}
+  #sop-app .side .nav{flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:6px}
+  #sop-app .side .nav button{white-space:nowrap}
+  #sop-app .side .who{display:none}
+}
+#sop-app h1,#sop-app h2,#sop-app h3{font-family:'Literata',Georgia,serif;font-weight:500;margin:0;letter-spacing:-0.005em}
+#sop-app h1{font-size:30px;line-height:1.15}
+#sop-app h2{font-size:22px;line-height:1.2}
+#sop-app h3{font-size:17px;line-height:1.3}
+#sop-app .eyebrow{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:10px}
+#sop-app .muted{color:var(--ink-soft);font-size:13px}
+#sop-app p{margin:0 0 12px}
+#sop-app a{color:var(--accent)}
+#sop-app .card{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:22px;margin-bottom:14px}
+#sop-app .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+#sop-app .brandmark{display:flex;align-items:baseline;gap:10px}
+#sop-app .brandmark .dot{width:9px;height:9px;background:var(--accent);border-radius:50%;flex:none;transform:translateY(-2px)}
+#sop-app .brandmark span{font-family:'Literata',Georgia,serif;font-size:16px}
+#sop-app button{font-family:inherit;font-size:14px;cursor:pointer;border-radius:3px;
+  transition:background .12s,border-color .12s,color .12s,transform .06s}
+/* Нажатие должно быть видно: кнопка вдавливается и темнеет, иначе
+   непонятно, сработало или нет — особенно на телефоне, где нет наведения. */
+#sop-app button:active:not(:disabled){transform:translateY(1px)}
+#sop-app .btn:active:not(:disabled){background:var(--accent-deep);border-color:var(--accent-deep)}
+#sop-app .btn-ghost:active:not(:disabled){background:var(--line);border-color:var(--line-deep)}
+#sop-app .btn-link:active{opacity:.6}
+#sop-app .chip:active,#sop-app .tab:active{background:var(--line)}
+#sop-app .ticket:active{transform:translateY(1px);border-color:var(--accent)}
+#sop-app button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#sop-app .btn{background:var(--accent);color:#fff;border:1px solid var(--accent);padding:11px 20px;font-weight:600}
+#sop-app .btn:hover{background:var(--accent-deep);border-color:var(--accent-deep)}
+#sop-app .btn:disabled{background:var(--line-deep);border-color:var(--line-deep);cursor:not-allowed}
+#sop-app .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line-deep);padding:9px 16px;font-weight:500}
+#sop-app .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+#sop-app .btn-sm{padding:6px 12px;font-size:13px}
+/* состояния кнопок: видно, что нажатие сработало */
+#sop-app .btn.busy,#sop-app .btn-ghost.busy{opacity:.55;cursor:progress}
+#sop-app .btn.done,#sop-app .btn-ghost.done{
+  background:var(--good);border-color:var(--good);color:#fff;font-weight:600}
+#sop-app .btn-link.done{color:var(--good);font-weight:600;text-decoration:none}
+#sop-app .ticket.busy,#sop-app .chip.busy{opacity:.55}
+#sop-app .btn-link{background:none;border:none;color:var(--accent);text-decoration:underline;padding:0;font-size:13px;font-weight:500}
+#sop-app .btn-tg{display:inline-block;background:#2AABEE;color:#fff;border:1px solid #2AABEE;padding:12px 20px;font-weight:600;text-decoration:none;border-radius:3px}
+#sop-app label{display:block;font-size:13px;font-weight:600;margin:0 0 6px}
+#sop-app input[type=text],#sop-app input[type=date],#sop-app input[type=time],
+#sop-app input[type=number],#sop-app input[type=password],#sop-app input[type=tel],
+#sop-app input[type=email],#sop-app select,#sop-app textarea{
+  width:100%;font-family:inherit;font-size:16px;color:var(--ink);
+  background:#FBF9FC;border:1px solid var(--line-deep);border-radius:3px;padding:10px 12px;margin-bottom:14px}
+#sop-app textarea{min-height:70px;resize:vertical}
+#sop-app input:focus,#sop-app select:focus,#sop-app textarea:focus{outline:none;border-color:var(--accent);background:#fff}
+#sop-app .field-hint{font-size:12px;color:var(--ink-soft);margin:-10px 0 14px}
+#sop-app .row{display:flex;gap:12px;flex-wrap:wrap}
+#sop-app .row>*{flex:1 1 160px}
+#sop-app .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+#sop-app .role{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:20px;text-align:left;width:100%}
+#sop-app .role:hover{border-color:var(--accent)}
+#sop-app .role strong{display:block;font-family:'Literata',Georgia,serif;font-size:18px;font-weight:400;margin-bottom:5px}
+#sop-app .role em{font-style:normal;font-size:13px;color:var(--ink-soft)}
+#sop-app .day{margin-bottom:26px}
+#sop-app .day-head{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--line-deep);padding-bottom:6px;margin-bottom:12px}
+#sop-app .day-head b{font-family:'Literata',Georgia,serif;font-weight:400;font-size:17px}
+#sop-app .day-head span{font-size:12px;color:var(--ink-soft)}
+#sop-app .tickets{display:flex;flex-wrap:wrap;gap:9px}
+#sop-app .ticket{position:relative;background:var(--paper);border:1px solid var(--line-deep);border-radius:3px;
+  padding:12px 16px 12px 22px;min-width:104px;text-align:left;font-family:'Literata',Georgia,serif;font-size:19px;color:var(--ink)}
+#sop-app .ticket::before{content:'';position:absolute;left:8px;top:9px;bottom:9px;width:3px;background:var(--accent);border-radius:2px;opacity:.55}
+#sop-app .ticket small{display:block;font-family:'Golos Text',sans-serif;font-size:11px;color:var(--ink-soft);margin-top:3px;letter-spacing:.02em}
+#sop-app .ticket:hover{border-color:var(--accent);background:#FCFAFD}
+#sop-app .ticket:hover::before{opacity:1}
+#sop-app .ticket[aria-pressed=true]{border-color:var(--accent);background:#F1E8F5}
+#sop-app .ticket[aria-pressed=true]::before{opacity:1;width:5px}
+#sop-app .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+#sop-app .chip{background:var(--paper);border:1px solid var(--line-deep);border-radius:3px;padding:7px 12px;font-size:14px;font-variant-numeric:tabular-nums}
+#sop-app .chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+#sop-app .chip.taken{opacity:.42;cursor:not-allowed}
+#sop-app table{width:100%;border-collapse:collapse;font-size:13px}
+#sop-app th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;padding:0 10px 8px 0;border-bottom:1px solid var(--line-deep)}
+#sop-app td{padding:10px 10px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+/* Контакты не должны рваться по буквам: ник и ссылка читаются целиком */
+#sop-app td .mono,#sop-app td.mono{overflow-wrap:anywhere;word-break:normal}
+#sop-app td.num,#sop-app th.num{text-align:right;font-variant-numeric:tabular-nums;padding-right:0}
+#sop-app .scroll{overflow-x:auto;margin:0 -4px;padding:0 4px}
+#sop-app .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:14px}
+#sop-app .metric{background:var(--paper);padding:15px 16px}
+#sop-app .metric b{display:block;font-family:'Literata',Georgia,serif;font-size:27px;font-weight:400;line-height:1.1}
+#sop-app .metric span{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-top:5px}
+#sop-app .metric.hot b{color:var(--accent)}
+#sop-app .tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;border-bottom:1px solid var(--line-deep)}
+#sop-app .tab{background:none;border:none;border-bottom:2px solid transparent;padding:9px 13px;font-size:14px;color:var(--ink-soft);font-weight:500;margin-bottom:-1px}
+#sop-app .tab[aria-selected=true]{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+#sop-app .tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:2px;background:var(--ground);border:1px solid var(--line);white-space:nowrap}
+#sop-app .tag.ok{background:#EDF3EE;border-color:#B9CDBC;color:var(--good)}
+#sop-app .tag.bad{background:#FBEEEA;border-color:#E2B7A9;color:var(--bad)}
+#sop-app .tag.wait{background:#F4EBF7;border-color:#D4BEDD;color:#5E3A73}
+#sop-app .note{background:#F6F0F8;border-left:3px solid var(--line-deep);padding:12px 14px;font-size:13px;border-radius:0 3px 3px 0;margin-bottom:14px}
+#sop-app .note.warn{background:#FBEEEA;border-left-color:var(--bad)}
+#sop-app .code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:22px;letter-spacing:.16em;color:var(--accent);font-weight:700}
+#sop-app .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;word-break:break-all}
+#sop-app .empty{text-align:center;padding:34px 20px;color:var(--ink-soft);font-size:14px}
+#sop-app .split{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+/* лента анамнеза в карточке клиентки */
+#sop-app .feed{border-left:2px solid var(--line-deep);padding-left:16px}
+#sop-app .feed-item{margin-bottom:16px;position:relative}
+#sop-app .feed-item::before{content:'';position:absolute;left:-21px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--line-deep)}
+#sop-app .feed-item.rep::before{background:var(--accent)}
+#sop-app .feed-item .when{font-size:12px;color:var(--ink-soft)}
+#sop-app .feed-item .rep-note{white-space:pre-wrap;background:#FBF9FC;border:1px solid var(--line);border-radius:3px;padding:10px 12px;margin-top:6px;font-size:14px}
+/* точки прогресса сопровождения в кабинете ученицы */
+#sop-app .dots{display:inline-flex;gap:8px;align-items:center}
+#sop-app .dots .dot{width:12px;height:12px;border-radius:50%;background:var(--line-deep);display:inline-block}
+#sop-app .dots .dot.on{background:var(--accent)}
+
+/* фото профиля ученицы */
+#sop-app .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;border:2px solid var(--line-deep);flex:none;background:var(--ground)}
+#sop-app .avatar-sm{width:44px;height:44px;vertical-align:middle;border-width:1px}
+#sop-app .avatar-empty{display:inline-flex;align-items:center;justify-content:center;
+  font-family:'Literata',Georgia,serif;font-size:36px;color:var(--ink-soft)}
+#sop-app .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:#fff;
+  padding:12px 20px;border-radius:3px;font-size:14px;z-index:99;max-width:88%}
+@media (prefers-reduced-motion:reduce){#sop-app *{transition:none!important;animation:none!important}}
+@media (max-width:560px){#sop-app h1{font-size:25px}#sop-app .card{padding:17px}}

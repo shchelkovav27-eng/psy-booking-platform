@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# git push = деплой. Хук ставится в bare-репозиторий на сервере: hooks/post-receive.
+#
+# Реконструкция по описанию боевого хука (сам файл живёт только на сервере):
+#   1) бэкап текущей версии сайта в ~/backups/<app>_<время>;
+#   2) раскладка свежего main в папку сайта;
+#   3) cache-busting: app.js?v=<время> / app.css?v=<время> в трёх index.html,
+#      иначе браузеры показывают старый интерфейс;
+#   4) php -l по всем PHP-файлам — результат печатается в ответ на git push.
+#
+# Пути задаются переменными; значения по умолчанию — заглушки.
+set -euo pipefail
+
+APP="${APP:-zapis}"
+WEB_ROOT="${WEB_ROOT:-$HOME/public_html}"
+TARGET="$WEB_ROOT/$APP"
+BACKUPS="${BACKUPS:-$HOME/backups}"
+BRANCH="main"
+
+while read -r oldrev newrev ref; do
+  [ "$ref" = "refs/heads/$BRANCH" ] || { echo "Ветка $ref не выкладывается, только $BRANCH."; continue; }
+
+  TS=$(date +%Y-%m-%d_%H-%M-%S)
+  mkdir -p "$BACKUPS" "$TARGET"
+
+  echo "1) Бэкап: $BACKUPS/${APP}_$TS"
+  cp -a "$TARGET" "$BACKUPS/${APP}_$TS"
+  # храним последние 30 выкладок
+  ls -1dt "$BACKUPS/${APP}_"* 2>/dev/null | tail -n +31 | xargs -r rm -rf
+
+  echo "2) Раскладываю $BRANCH -> $TARGET"
+  # Каталоги с пользовательскими загрузками (foto/) git не трогает: их нет в репозитории.
+  git --work-tree="$TARGET" --git-dir="$(pwd)" checkout -f "$BRANCH"
+
+  echo "3) Обновляю версии статики"
+  V=$(date +%s)
+  for f in "$TARGET/index.html" "$TARGET/spec/index.html" "$TARGET/koordinator/index.html"; do
+    [ -f "$f" ] && sed -i -E "s/app\.(css|js)\?v=[0-9]+/app.\1?v=$V/g" "$f"
+  done
+
+  echo "4) Проверяю синтаксис PHP"
+  fail=0
+  for f in "$TARGET"/*.php; do
+    php -l "$f" >/dev/null 2>&1 || { php -l "$f"; fail=1; }
+  done
+  if [ "$fail" = "0" ]; then
+    echo "   синтаксис PHP в порядке — выложено."
+  else
+    echo "   ОШИБКА синтаксиса. Откат: cp -a $BACKUPS/${APP}_$TS/. $TARGET/"
+    exit 1
+  fi
+done
